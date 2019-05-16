@@ -1,31 +1,37 @@
-CREATE TABLE Ethnicity(
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE ethnicity(
+    id INT NOT NULL PRIMARY KEY,
     name VARCHAR(20)
 );
 
-CREATE TABLE Symptoms(
-    family INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+CREATE TABLE gender(
+    id INT NOT NULL PRIMARY KEY,
+    name VARCHAR(20)
+);
+
+CREATE TABLE symptoms(
+    family INT NOT NULL PRIMARY KEY,
     fever BOOLEAN,
-    blue_whelts BOOLEAN
+    blue_whelts BOOLEAN,
+    low_bp BOOLEAN
 );
 
-CREATE TABLE Patient(
+CREATE TABLE disease(
+    name VARCHAR(20) NOT NULL PRIMARY KEY,
+    survival_rate FLOAT
+);
+
+CREATE TABLE patient(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    
     ethnicity INT,
-    symptoms INT,
-
     FOREIGN KEY(ethnicity) REFERENCES ethnicity(id),
-    FOREIGN KEY(symptoms) REFERENCES symptoms(family)
-);
 
-CREATE TABLE Gender(
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    hello varchar(50)
-);
+    gender INT,
+    FOREIGN KEY(gender) REFERENCES gender(id),
 
+    symptoms_family INT,
+    FOREIGN KEY(symptoms_family) REFERENCES symptoms(family),
 
-
-CREATE TABLE Disease(
-    name varchar(20) PRIMARY KEY,
-    hello varchar(50)
+    disease VARCHAR(20),
+    FOREIGN KEY(disease) REFERENCES disease(name)
 );

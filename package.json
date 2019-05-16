@@ -1,0 +1,23 @@
+{
+  "name": "sql-intro-lesson-exercises",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "jest-cli": "^23.4.2",
+    "jest-json-reporter": "^1.2.2",
+    "jest-test-runner": "git+https://github.com/Elevationacademy/jest-test-runner.git",
+    "promise-mysql": "^3.3.1"
+  },
+  "devDependencies": {
+    "babel-plugin-react-html-attrs": "^2.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "jest": "^23.4.2",
+    "jest-expect-message": "github:Elevationacademy/jest-expect-message",
+    "jest-transform-stub": "^1.0.0"
+  },
+  "scripts": {
+    "test-silent": "jest --runInBand || exit 0",
+    "tests": "tests"
+  }
+}

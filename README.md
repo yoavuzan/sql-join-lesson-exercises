@@ -1,0 +1,1 @@
+Make sure you have a local instance of MySql running before running local tests.

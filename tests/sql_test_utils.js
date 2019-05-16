@@ -9,7 +9,8 @@ const sqlConnectionConfig = {
 }
 
 class SqlTestUtils {
-    constructor(tableNames, filename) {
+    constructor(tableNames, filename, supportTables) {
+        this.supportTables = supportTables
         this.connection = null
         this.tableNames = tableNames
         this.filename = filename
@@ -35,7 +36,7 @@ class SqlTestUtils {
     }
 
     async dropAndEndConnection() {
-        await this.connection.query(`DROP TABLE IF EXISTS ${this.tableNames.join(",")};`)
+        await this.connection.query(`DROP TABLE IF EXISTS ${this.supportTables.join(",")};`)
         await this.connection.end()
     }
 

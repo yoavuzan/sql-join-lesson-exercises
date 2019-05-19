@@ -70,11 +70,11 @@ describe('spotcheck4', () => {
 
         expect(result.result, result.message, 'Your query results should not be null').not.toBeNull()
 
-        expect(result.result.length, 'Your query should return different number of results').toBe(2)
+        expect(result.result.length, "Your query should return different number of results. It should only return the names of Foster's students (Ryan and Leo)").toBe(2)
         result = result.result
 
-        expect(result[0], 'You seemed to have used the WHERE statement incorrectly').toEqual({s_name: 'Ryan'})
-        expect(result[1], 'You seemed to have used the WHERE statement incorrectly').toEqual({s_name: 'Leo'})
+        expect(result[0], "Couldn't find Ryan under the `s_name` column. Remember to join both on the teacher's name (hard-coded) AND the student/teacher IDs").toEqual({s_name: 'Ryan'})
+        expect(result[1], "Couldn't find Leo under the `s_name` column. Remember to join both on the teacher's name (hard-coded) AND the student/teacher IDs").toEqual({s_name: 'Leo'})
 
         done()
     })

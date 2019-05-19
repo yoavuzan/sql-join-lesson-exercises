@@ -24,7 +24,7 @@ class SqlTestUtils {
     }
 
     getFilePath() {
-        return `./${this.filename}.sql`
+        return `./solutions/${this.filename}.sql`
     }
 
     async createSQLConnection() {
@@ -50,10 +50,9 @@ class SqlTestUtils {
         try {
             result = await this.connection.query(query)
         } catch (error) {
-            if ( error.toString().includes('NO_SUCH_TABLE') ) {
+            if (error.toString().toLowerCase().includes(this.NO_SUCH_TABLE)) {
                 return { result: null, message: "Error running your query, couldn't create one of the tables. It's likely the Join table - make sure you're referencing the correct column names." }
             }
-
             return { result: null, message: "Error running your query, please check the syntax" }
         }
 
@@ -102,6 +101,21 @@ class SqlTestUtils {
         }
     }
 
+    getCleanQuery(lines) {
+        //remove any 'use' and comment lines
+        let linesSansCommentsOrUse = lines.filter(l => l[0] !== "-" && !l.toLowerCase().includes("use"))
+
+        for (let l in linesSansCommentsOrUse) {
+            let line = linesSansCommentsOrUse[l]
+            let indexOfDash = line.indexOf("--") //remove inline-comments
+
+            if (indexOfDash > -1) {
+                linesSansCommentsOrUse[l] = line.replace(line.substring(indexOfDash), "")
+            }
+        }
+        return linesSansCommentsOrUse.join("\n")
+    }
+
     async getStudentQuery() {
         let query = this._loadFile()
         if (query === null) { return this._error(`Bad file submission. Make sure you've uploaded a file called ${this.filename}.sql in your root directory`) }
@@ -121,7 +135,6 @@ class SqlTestUtils {
         }
 
         query = this.getCleanQuery(lines)
-
         return { error: false, query }
     }
 }

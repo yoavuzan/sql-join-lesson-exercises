@@ -3,7 +3,7 @@ const fs = require('fs')
 const sqlConnectionConfig = {
     host: 'localhost',
     user: 'root',
-    database: 'sql_intro',
+    database: 'sql_testing',
     insecureAuth: true,
     multipleStatements: true
 }
@@ -85,7 +85,7 @@ class SqlTestUtils {
         } catch (err) {
             const code = err.code.toLowerCase()
             const error = { err: true, message: err.sqlMessage, details: err.sqlMessage }
-            
+
             if (code.includes(this.BAD_FIELD)) { error.message = this.BAD_FIELD }
             if (code.includes(this.FK_CONSTRAINT)) { error.message = this.FK_CONSTRAINT }
 
@@ -104,15 +104,14 @@ class SqlTestUtils {
         if (!lines[0].length) {
             return this._error(`Your query should start at the beginning of the file (${this.filename}.sql) - don't leave an empty line`)
         }
-        if (lines[0].toLowerCase().includes("use")) {
-            return this._error(`Should not have 'use' in ${this.filename}.sql file; only submit the requested query`)
-        }
 
         for (let tableName of this.tableNames) {
             if (!query.toLowerCase().includes(tableName.toLowerCase()) || !this.isExactTablename(query, tableName)) {
                 return this._error(`Wrong table name. There should be a table named ${tableName} (case insensitive)`)
             }
         }
+
+        query = this.getCleanQuery(lines)
 
         return { error: false, query }
     }

@@ -37,7 +37,9 @@ class SqlTestUtils {
     }
 
     async dropAndEndConnection() {
+        await this.connection.query('SET FOREIGN_KEY_CHECKS = 0;')
         await this.connection.query(`DROP TABLE IF EXISTS ${this.supportTables.join(",")};`)
+        await this.connection.query('SET FOREIGN_KEY_CHECKS = 1;')
         await this.connection.end()
     }
 
@@ -46,7 +48,7 @@ class SqlTestUtils {
 
         let result
         try { result = await this.connection.query(query) }
-        catch (error) { return badSyntaxResult }
+        catch (error) { console.log( 'error', error ); return badSyntaxResult }
 
         return (!shouldBeEmpty && result.length === 0) ?
             { result: null, message: `Result from query from is empty` } :

@@ -8,7 +8,7 @@ describe('spotcheck4', () => {
         done()
     })
 
-    it('You should write a query that uses alias names', async done => {
+    it('You should find all the student names that have Foster as their teacher', async done => {
         await testUtils.createSQLConnection()
 
         await testUtils.tableSetup([`
@@ -70,10 +70,11 @@ describe('spotcheck4', () => {
 
         expect(result.result, result.message, 'Your query results should not be null').not.toBeNull()
 
-        expect(result.result.length, 'Your query should return different number of results').toBe(1)
+        expect(result.result.length, 'Your query should return different number of results').toBe(2)
         result = result.result
 
-        expect(result[0].t_name, 'You seemed to have used the WHERE statement incorrectly').toBe('Levine')
+        expect(result[0], 'You seemed to have used the WHERE statement incorrectly').toEqual({s_name: 'Ryan'})
+        expect(result[1], 'You seemed to have used the WHERE statement incorrectly').toEqual({s_name: 'Leo'})
 
         done()
     })

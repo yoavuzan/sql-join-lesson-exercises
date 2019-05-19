@@ -46,7 +46,8 @@ class SqlTestUtils {
 
         let result
         try { result = await this.connection.query(query) }
-        catch (error) { return badSyntaxResult }
+        catch (error) {
+            return badSyntaxResult; }
 
         return (!shouldBeEmpty && result.length === 0) ?
             { result: null, message: `Result from query from is empty` } :
@@ -55,13 +56,14 @@ class SqlTestUtils {
 
     async getAllTableResults() {
         const results = []
-        for (let tableName of this.tableNames) {
-            this.tableName = tableName
+
+        for (const tableName of this.tableNames) {
             let result = await this.getQueryResult(true, `${this.SELECT_ALL_FROM} ${tableName};`, true)
 
             result.tableName = tableName
             results.push(result)
         }
+
         return results
     }
 

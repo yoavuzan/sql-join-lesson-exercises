@@ -8,8 +8,6 @@ describe('exercise2', () => {
     })
 
     it('Should write a query that determines how many patients are sick', async done => {
-        const isSelect = true
-
         await testUtils.createSQLConnection()
 
         await testUtils.tableSetup([
@@ -85,7 +83,7 @@ describe('exercise2', () => {
         expect(studentQuery.error, studentQuery.errorMessage).toBeFalsy()
 
         studentQuery = studentQuery.query
-        let result = await testUtils.getQueryResult(isSelect, studentQuery)
+        let result = await testUtils.getQueryResult(studentQuery)
 
         expect(result.result, result.message, 'Your query results should not be null').not.toBeNull()
         result = result.result
@@ -94,6 +92,7 @@ describe('exercise2', () => {
         expect(typeof result[0], 'Your results should only include the count of the sick patients').toBe('object')
 
         const countKey = Object.keys(result[0])[0] //assuming (as tested above) that only key is the count key
+
         expect(result[0][countKey], 'Your query should only return the count of the sick patients, and no other field').toBe(6)
 
         done()

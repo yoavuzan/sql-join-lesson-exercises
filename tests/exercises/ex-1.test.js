@@ -17,6 +17,7 @@ describe("exercise1", () => {
         await testUtils.executeQuery(studentQuery) //in this test, query is to create a few tables with FKs
 
         const allTableResults = await testUtils.getAllTableResults()
+
         for (let result of allTableResults) {
             expect(result.result, result.message).not.toBeNull()
         }

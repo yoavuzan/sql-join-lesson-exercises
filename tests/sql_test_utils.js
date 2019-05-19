@@ -46,8 +46,7 @@ class SqlTestUtils {
 
         let result
         try { result = await this.connection.query(query) }
-        catch (error) {
-            return badSyntaxResult; }
+        catch (error) { return badSyntaxResult }
 
         return (!shouldBeEmpty && result.length === 0) ?
             { result: null, message: `Result from query from is empty` } :
@@ -56,14 +55,13 @@ class SqlTestUtils {
 
     async getAllTableResults() {
         const results = []
-
-        for (const tableName of this.tableNames) {
-            let result = await this.getQueryResult(true, `${this.SELECT_ALL_FROM} ${tableName};`, true)
+        for (let tableName of this.tableNames) {
+            this.tableName = tableName
+            let result = await this.getQueryResult(`${this.SELECT_ALL_FROM} ${tableName};`, true)
 
             result.tableName = tableName
             results.push(result)
         }
-
         return results
     }
 
@@ -87,7 +85,7 @@ class SqlTestUtils {
         } catch (err) {
             const code = err.code.toLowerCase()
             const error = { err: true, message: err.sqlMessage, details: err.sqlMessage }
-            console.log(err.sqlMessage)
+            
             if (code.includes(this.BAD_FIELD)) { error.message = this.BAD_FIELD }
             if (code.includes(this.FK_CONSTRAINT)) { error.message = this.FK_CONSTRAINT }
 

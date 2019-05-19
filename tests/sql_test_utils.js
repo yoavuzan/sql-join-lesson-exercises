@@ -10,14 +10,15 @@ const sqlConnectionConfig = {
 
 class SqlTestUtils {
     constructor(tableNames, filename, supportTables) {
-        this.supportTables = supportTables
         this.connection = null
         this.tableNames = tableNames
+        this.supportTables = supportTables
         this.filename = filename
         this.SELECT_ALL_FROM = "SELECT * FROM"
         this.DROP_TABLE = "DROP TABLE"
         this.STRING = "string"
         this.BAD_FIELD = "bad_field"
+        this.FK_CONSTRAINT = "row_is_referenced"
         this.UNKNOWN_ERROR = "Something strange happened, please call for assistance"
     }
 
@@ -40,23 +41,15 @@ class SqlTestUtils {
         await this.connection.end()
     }
 
-    async getQueryResult(isSelect, query, shouldBeEmpty = false) {
-        const extraErrorForInsert = isSelect ? "" : " and make sure you're using all the necessary columns"
-        const badSyntaxResult = { result: null, message: "Error running your query, please check the syntax" + extraErrorForInsert }
-
-        if (!isSelect) {
-            try { await this.connection.query(query) }
-            catch (error) { return badSyntaxResult }
-
-            query = `${this.SELECT_ALL_FROM} ${this.tableName}`
-        }
+    async getQueryResult(query, shouldBeEmpty = false) {
+        const badSyntaxResult = { result: null, message: "Error running your query, please check the syntax" }
 
         let result
         try { result = await this.connection.query(query) }
         catch (error) { return badSyntaxResult }
 
         return (!shouldBeEmpty && result.length === 0) ?
-            { result: null, message: `Result from query from ${this.tableName} is empty` } :
+            { result: null, message: `Result from query from is empty` } :
             { result }
     }
 
@@ -88,11 +81,15 @@ class SqlTestUtils {
 
     async executeQuery(query) {
         try {
-            return {err: false, result: await this.connection.query(query)}
+            return { err: false, result: await this.connection.query(query) }
         } catch (err) {
-            // console.log(err)
-            return err.code.toLowerCase().includes(this.BAD_FIELD) ?
-                { err: true, message: this.BAD_FIELD, details: err.sqlMessage } : { err: true, message: err.sqlMessage }
+            const code = err.code.toLowerCase()
+            const error = { err: true, message: err.sqlMessage, details: err.sqlMessage }
+            console.log(err.sqlMessage)
+            if (code.includes(this.BAD_FIELD)) { error.message = this.BAD_FIELD }
+            if (code.includes(this.FK_CONSTRAINT)) { error.message = this.FK_CONSTRAINT }
+
+            return error
         }
     }
 

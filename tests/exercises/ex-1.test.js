@@ -73,6 +73,6 @@ describe("exercise1", () => {
             fkMessage('disease'))
             .toBeTruthy()
 
-        done() //for async
-    });
+        done()
+    })
 })

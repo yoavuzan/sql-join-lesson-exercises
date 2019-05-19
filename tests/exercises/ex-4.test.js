@@ -8,7 +8,7 @@ describe("exercise4", () => {
         done()
     })
 
-    it('You should for the survival rate of all the sick patients and order them in ascending order of ID.', async (done) => {
+    it('Your should query for the survival rate of all the sick patients and order them in ascending order of ID. Your query should only return 2 columns', async (done) => {
         const isSelect = true
 
         await testUtils.createSQLConnection()
@@ -91,15 +91,14 @@ describe("exercise4", () => {
         expect(result.result, result.message, 'Your query results should not be null').not.toBeNull()
         result = result.result
 
-        expect(result.length, `Your query should return ${result.length} rows in the results set`).toBe(6)
+        expect(result.length, 'Your query returns the wrong number of results. Make sure you only querying the sick patients').toBe(6)
 
-        expect(result.length, "something").toBe(6)
-        expect(result[0], "").toEqual({ id: 1, survival_rate: 0.2 })
-        expect(result[1], "").toEqual({ id: 6, survival_rate: 0.2 })
-        expect(result[2], "").toEqual({ id: 8, survival_rate: 0.2 })
-        expect(result[3], "").toEqual({ id: 12, survival_rate: 0.2 })
-        expect(result[4], "").toEqual({ id: 13, survival_rate: 0.35 })
-        expect(result[5], "").toEqual({ id: 15, survival_rate: 0.35 })
+        expect(result[0], 'You seemed to have used the GROUP BY order incorrectly').toEqual({ id: 1, survival_rate: 0.2 })
+        expect(result[1], 'You seemed to have used the GROUP BY order incorrectly').toEqual({ id: 6, survival_rate: 0.2 })
+        expect(result[2], 'You seemed to have used the GROUP BY order incorrectly').toEqual({ id: 8, survival_rate: 0.2 })
+        expect(result[3], 'You seemed to have used the GROUP BY order incorrectly').toEqual({ id: 12, survival_rate: 0.2 })
+        expect(result[4], 'You seemed to have used the GROUP BY order incorrectly').toEqual({ id: 13, survival_rate: 0.35 })
+        expect(result[5], 'You seemed to have used the GROUP BY order incorrectly').toEqual({ id: 15, survival_rate: 0.35 })
 
         done()
     })

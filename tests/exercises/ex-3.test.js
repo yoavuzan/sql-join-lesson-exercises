@@ -9,8 +9,6 @@ describe("exercise3", () => {
     })
 
     it(`Your query should determine how many people are suffering only from the 'cabbage' disease and no other`, async (done) => {
-        const isSelect = true
-
         await testUtils.createSQLConnection()
 
         await testUtils.tableSetup([
@@ -86,14 +84,15 @@ describe("exercise3", () => {
         expect(studentQuery.error, studentQuery.errorMessage, 'Your query should not return any errors').toBeFalsy()
 
         studentQuery = studentQuery.query
-        let result = await testUtils.getQueryResult(isSelect, studentQuery)
+        let result = await testUtils.getQueryResult(studentQuery)
 
         expect(result.result, result.message, 'Your query results should not be null').not.toBeNull()
-        expect(result.length, 'Your query should return only one row in the results set').toBe(1)
 
-        const countKey = Object.keys(result[0][0])
+        expect(result.result.length, 'Your query should return only one row in the results set').toBe(1)
 
-        expect(result[0][countKey], 'Your query should only return the count of the people which suffers from the cabbage disease and no other disease').toBe(4)
+        const countKey = Object.keys(result.result[0])
+
+        expect(result.result[0][countKey[0]], 'Your query should only return the count of the people which suffers from the cabbage disease and no other disease').toBe(4)
 
         done()
     })

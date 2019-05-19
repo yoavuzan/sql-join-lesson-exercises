@@ -19,6 +19,7 @@ class SqlTestUtils {
         this.STRING = "string"
         this.BAD_FIELD = "bad_field"
         this.FK_CONSTRAINT = "row_is_referenced"
+        this.NO_SUCH_TABLE = "no_such_table"
         this.UNKNOWN_ERROR = "Something strange happened, please call for assistance"
     }
 
@@ -37,16 +38,24 @@ class SqlTestUtils {
     }
 
     async dropAndEndConnection() {
+        await this.connection.query('SET FOREIGN_KEY_CHECKS = 0;')
         await this.connection.query(`DROP TABLE IF EXISTS ${this.supportTables.join(",")};`)
+        await this.connection.query('SET FOREIGN_KEY_CHECKS = 1;')
         await this.connection.end()
     }
 
     async getQueryResult(query, shouldBeEmpty = false) {
-        const badSyntaxResult = { result: null, message: "Error running your query, please check the syntax" }
-
         let result
-        try { result = await this.connection.query(query) }
-        catch (error) { return badSyntaxResult }
+
+        try {
+            result = await this.connection.query(query)
+        } catch (error) {
+            if ( error.toString().includes('NO_SUCH_TABLE') ) {
+                return { result: null, message: "Error running your query, couldn't create one of the tables. It's likely the Join table - make sure you're referencing the correct column names." }
+            }
+
+            return { result: null, message: "Error running your query, please check the syntax" }
+        }
 
         return (!shouldBeEmpty && result.length === 0) ?
             { result: null, message: `Result from query from is empty` } :

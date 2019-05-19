@@ -9,8 +9,6 @@ describe("exercise5", () => {
     })
 
     it('You should write a query that determines how many patients have the cabbage disease, per symptoms_family field', async done => {
-        const isSelect = true
-
         await testUtils.createSQLConnection()
 
         await testUtils.tableSetup([
@@ -83,10 +81,10 @@ describe("exercise5", () => {
         ])
 
         let studentQuery = await testUtils.getStudentQuery()
-        expect(studentQuery.error, studentQuery.errorMessage).toBeFalsy()
+        expect(studentQuery.error, studentQuery.errorMessage, 'Your query should not return any errors').toBeFalsy()
 
         studentQuery = studentQuery.query
-        let result = await testUtils.getQueryResult(isSelect, studentQuery)
+        let result = await testUtils.getQueryResult(studentQuery)
 
         expect(result.result, result.message, 'Your query results should not be null').not.toBeNull()
         result = result.result

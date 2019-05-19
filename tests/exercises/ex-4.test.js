@@ -9,8 +9,6 @@ describe("exercise4", () => {
     })
 
     it('Your should query for the survival rate of all the sick patients and order them in ascending order of ID. Your query should only return 2 columns', async (done) => {
-        const isSelect = true
-
         await testUtils.createSQLConnection()
 
         await testUtils.tableSetup([
@@ -86,7 +84,7 @@ describe("exercise4", () => {
         expect(studentQuery.error, studentQuery.errorMessage, 'Your query should not return any errors').toBeFalsy()
 
         studentQuery = studentQuery.query
-        let result = await testUtils.getQueryResult(isSelect, studentQuery)
+        let result = await testUtils.getQueryResult(studentQuery)
 
         expect(result.result, result.message, 'Your query results should not be null').not.toBeNull()
         result = result.result

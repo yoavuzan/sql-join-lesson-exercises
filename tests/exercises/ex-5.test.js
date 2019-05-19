@@ -1,13 +1,14 @@
 const SqlTestUtils = require('../sql_test_utils')
 
-describe("exercise2", () => {
+describe("exercise5", () => {
     const testUtils = new SqlTestUtils(["patient", "disease"], "ex_5", ["patient", "ethnicity", "gender", "disease", "symptoms"])
+
     afterEach(async (done) => {
         await testUtils.dropAndEndConnection()
         done()
     })
 
-    it('Should find all dolphins that have "on" anywhere in their name', async (done) => {
+    it('You should write a query that determines how many patients have the cabbage disease, per symptoms_family field', async done => {
         const isSelect = true
 
         await testUtils.createSQLConnection()
@@ -87,15 +88,13 @@ describe("exercise2", () => {
         studentQuery = studentQuery.query
         let result = await testUtils.getQueryResult(isSelect, studentQuery)
 
-        expect(result.result, result.message).not.toBeNull()
+        expect(result.result, result.message, 'Your query results should not be null').not.toBeNull()
         result = result.result
 
-        console.log( result )
+        expect(result.length, 'Your query returns the wrong number of results. Make sure you only your making the GROUP BY only by symptoms_family field').toBe(2)
+        expect(result[0], 'You seemed to have used the GROUP BY order incorrectly').toEqual({ symptoms_family: 4, count: 1 })
+        expect(result[1], 'You seemed to have used the GROUP BY order incorrectly').toEqual({ symptoms_family: 7, count: 3 })
 
-        expect(result.length, "something").toBe(2)
-        expect(result[0]).toEqual({ symptoms_family: 4, count: 1 })
-        expect(result[1]).toEqual({ symptoms_family: 7, count: 3 })
-
-        done() //for async
-    });
+        done()
+    })
 })

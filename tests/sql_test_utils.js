@@ -57,7 +57,7 @@ class SqlTestUtils {
         const results = []
         for (let tableName of this.tableNames) {
             this.tableName = tableName
-            let result = await this.getQueryResult(true, `${this.SELECT_ALL_FROM} ${tableName};`, true)
+            let result = await this.getQueryResult(`${this.SELECT_ALL_FROM} ${tableName};`, true)
 
             result.tableName = tableName
             results.push(result)
@@ -85,7 +85,7 @@ class SqlTestUtils {
         } catch (err) {
             const code = err.code.toLowerCase()
             const error = { err: true, message: err.sqlMessage, details: err.sqlMessage }
-            console.log(err.sqlMessage)
+            
             if (code.includes(this.BAD_FIELD)) { error.message = this.BAD_FIELD }
             if (code.includes(this.FK_CONSTRAINT)) { error.message = this.FK_CONSTRAINT }
 

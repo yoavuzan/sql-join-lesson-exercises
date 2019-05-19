@@ -7,7 +7,7 @@ describe("exercise2", () => {
         done()
     })
 
-    it('Should find all dolphins that have "on" anywhere in their name', async (done) => {
+    it('Should write a query that determines how many patients are sick', async (done) => {
         const isSelect = true
 
         await testUtils.createSQLConnection()
@@ -83,15 +83,18 @@ describe("exercise2", () => {
 
         let studentQuery = await testUtils.getStudentQuery()
         expect(studentQuery.error, studentQuery.errorMessage).toBeFalsy()
-        
+
         studentQuery = studentQuery.query
         let result = await testUtils.getQueryResult(isSelect, studentQuery)
 
         expect(result.result, result.message).not.toBeNull()
         result = result.result
 
-        expect(result.length, "something").toBe(1)
-        expect(result[0].count, "").toBe(6)
+        expect(result.length, "The results from your query were empty").toBe(1)
+        expect(typeof result[0], "Your results should only include the count of the sick patients").toBe("object")
+
+        const countKey = Object.keys(result[0])[0] //assuming (as tested above) that only key is the count key
+        expect(result[0][countKey], "Your query should only return the count of the sick patients, and no other field").toBe(6)
 
         done() //for async
     });

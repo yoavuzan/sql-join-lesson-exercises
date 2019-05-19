@@ -1,13 +1,14 @@
 const SqlTestUtils = require('../sql_test_utils')
 
-describe("exercise2", () => {
+describe('exercise2', () => {
     const testUtils = new SqlTestUtils(["patient"], "ex_2", ["patient", "ethnicity", "gender", "disease", "symptoms"])
+
     afterEach(async (done) => {
         await testUtils.dropAndEndConnection()
         done()
     })
 
-    it('Should find all dolphins that have "on" anywhere in their name', async (done) => {
+    it('You should write a query that determines how many patients are sick.', async done => {
         const isSelect = true
 
         await testUtils.createSQLConnection()
@@ -82,17 +83,19 @@ describe("exercise2", () => {
         ])
 
         let studentQuery = await testUtils.getStudentQuery()
-        expect(studentQuery.error, studentQuery.errorMessage).toBeFalsy()
-        
+        expect(studentQuery.error, studentQuery.errorMessage, 'Your query should not return any errors').toBeFalsy()
+
         studentQuery = studentQuery.query
         let result = await testUtils.getQueryResult(isSelect, studentQuery)
 
-        expect(result.result, result.message).not.toBeNull()
+        expect(result.result, result.message, 'Your query results should not be null').not.toBeNull()
         result = result.result
 
-        expect(result.length, "something").toBe(1)
-        expect(result[0].count, "").toBe(6)
+        expect(result.length, 'Your query should return only one row in the results set').toBe(1)
+        const countKey = Object.keys(result[0][0])
 
-        done() //for async
-    });
+        expect(result[0][countKey], 'Your query should only return the count of the sick patients, and not other field').toBe(6)
+
+        done()
+    })
 })

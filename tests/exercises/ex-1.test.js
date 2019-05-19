@@ -2,7 +2,8 @@ const SqlTestUtils = require('../sql_test_utils')
 
 describe("exercise1", () => {
     const testUtils = new SqlTestUtils(["patient", "ethnicity", "symptoms", "gender", "disease"], "ex_1")
-    afterEach(async (done) => {
+
+    afterEach(async done => {
         await testUtils.dropAndEndConnection()
         done()
     })
@@ -17,17 +18,18 @@ describe("exercise1", () => {
         await testUtils.executeQuery(studentQuery) //in this test, query is to create a few tables
 
         const allTableResults = await testUtils.getAllTableResults()
+
         for (let result of allTableResults) {
             expect(result.result, result.message).not.toBeNull()
         }
 
-        let validation = await testUtils.executeQuery(`
+        const validation = await testUtils.executeQuery(`
         INSERT INTO ethnicity (id, name) VALUES(3, "white");
         INSERT INTO gender (id, name) VALUES(0, "female");        
         INSERT INTO symptoms (family, fever, blue_whelts, low_bp) VALUES(0, 1, 1, 1);       
         INSERT INTO disease (name, survival_rate) VALUES("lettuce disease", 0.35);
         INSERT INTO patient (id, name, ethnicity, gender, symptoms_family, disease) VALUES(null, 0, 0, 0, 'lettuce disease');`)
-        console.log(validation)
+
         expect(validation.err,
             validation.message !== testUtils.BAD_FIELD ?
                 testUtils.UNKNOWN_ERROR :
@@ -41,16 +43,6 @@ describe("exercise1", () => {
                                 "Make sure the `patient` table has the fields `ethnicity`, `gender`, `symptoms_family`, and `disease` as Foreign Keys"))
             .toBeFalsy()
 
-
-        // console.log(allTableResults)
-        // console.log(allTableResults[0].result)
-
-        // result = result.result
-
-
-
-
-
-        done() //for async
-    });
+        done()
+    })
 })

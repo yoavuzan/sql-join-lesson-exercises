@@ -1,13 +1,14 @@
 const SqlTestUtils = require('../sql_test_utils')
 
-describe("exercise2", () => {
+describe("exercise3", () => {
     const testUtils = new SqlTestUtils(["patient"], "ex_3", ["patient", "ethnicity", "gender", "disease", "symptoms"])
-    afterEach(async (done) => {
+
+    afterEach( async done => {
         await testUtils.dropAndEndConnection()
         done()
     })
 
-    it('Should find all dolphins that have "on" anywhere in their name', async (done) => {
+    it('Your query should determine how many people are suffering only from the \'cabbage\' disease and no other', async (done) => {
         const isSelect = true
 
         await testUtils.createSQLConnection()
@@ -82,17 +83,17 @@ describe("exercise2", () => {
         ])
 
         let studentQuery = await testUtils.getStudentQuery()
-        expect(studentQuery.error, studentQuery.errorMessage).toBeFalsy()
+        expect(studentQuery.error, studentQuery.errorMessage, 'Your query should not return any errors').toBeFalsy()
 
         studentQuery = studentQuery.query
         let result = await testUtils.getQueryResult(isSelect, studentQuery)
 
-        expect(result.result, result.message).not.toBeNull()
-        result = result.result
+        expect(result.result, result.message, 'Your query results should not be null').not.toBeNull()
+        const countKey = Object.keys(result[0][0])
 
-        expect(result.length, "something").toBe(1)
-        expect(result[0].count, "").toBe(4)
+        expect(result.length, 'Your query should return only one row in the results set').toBe(1)
+        expect(result[0][countKey], 'Your query should only return the count of the people which suffers from the cabbage disease and no other disease').toBe(4)
 
-        done() //for async
-    });
+        done()
+    })
 })

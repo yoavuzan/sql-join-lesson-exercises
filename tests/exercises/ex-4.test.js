@@ -1,13 +1,14 @@
 const SqlTestUtils = require('../sql_test_utils')
 
-describe("exercise2", () => {
+describe("exercise4", () => {
     const testUtils = new SqlTestUtils(["patient", "disease"], "ex_4", ["patient", "ethnicity", "gender", "disease", "symptoms"])
-    afterEach(async (done) => {
+
+    afterEach(async done => {
         await testUtils.dropAndEndConnection()
         done()
     })
 
-    it('Should find all dolphins that have "on" anywhere in their name', async (done) => {
+    it('You should for the survival rate of all the sick patients and order them in ascending order of ID.', async (done) => {
         const isSelect = true
 
         await testUtils.createSQLConnection()
@@ -82,15 +83,15 @@ describe("exercise2", () => {
         ])
 
         let studentQuery = await testUtils.getStudentQuery()
-        expect(studentQuery.error, studentQuery.errorMessage).toBeFalsy()
+        expect(studentQuery.error, studentQuery.errorMessage, 'Your query should not return any errors').toBeFalsy()
 
         studentQuery = studentQuery.query
         let result = await testUtils.getQueryResult(isSelect, studentQuery)
 
-        expect(result.result, result.message).not.toBeNull()
+        expect(result.result, result.message, 'Your query results should not be null').not.toBeNull()
         result = result.result
 
-        console.log( result )
+        expect(result.length, `Your query should return ${result.length} rows in the results set`).toBe(6)
 
         expect(result.length, "something").toBe(6)
         expect(result[0], "").toEqual({ id: 1, survival_rate: 0.2 })
@@ -100,6 +101,6 @@ describe("exercise2", () => {
         expect(result[4], "").toEqual({ id: 13, survival_rate: 0.35 })
         expect(result[5], "").toEqual({ id: 15, survival_rate: 0.35 })
 
-        done() //for async
-    });
+        done()
+    })
 })

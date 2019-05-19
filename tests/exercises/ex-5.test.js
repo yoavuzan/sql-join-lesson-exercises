@@ -90,8 +90,6 @@ describe("exercise2", () => {
         expect(result.result, result.message).not.toBeNull()
         result = result.result
 
-        console.log( result )
-
         expect(result.length, "something").toBe(2)
         expect(result[0]).toEqual({ symptoms_family: 4, count: 1 })
         expect(result[1]).toEqual({ symptoms_family: 7, count: 3 })

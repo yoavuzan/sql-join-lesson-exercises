@@ -75,7 +75,7 @@ class SqlTestUtils {
 
     isExactTablename(query, tableName) {
         let startIndex = query.toLowerCase().indexOf(tableName.toLowerCase())
-        let studentTableName = query.toLowerCase().substring(startIndex, startIndex + tableName.length + 1).replace(/\W/g, '')
+        let studentTableName = query.toLowerCase().substring(startIndex, startIndex + tableName.length).replace(/\W/g, '')
         return studentTableName.toLowerCase() === tableName.toLowerCase()
     }
 

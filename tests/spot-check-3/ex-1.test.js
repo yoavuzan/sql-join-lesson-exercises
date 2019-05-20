@@ -66,7 +66,7 @@ describe('spotcheck3', () => {
                 return "Make sure the `teacher` table has the field `is_tenured`"
             }
 
-            return "Make sure the `patient` table has the fields `ethnicity`, `gender`, `symptoms_family`, and `disease`"
+            return "Make sure the `student_teacher` table has the fields `student_id`, and `teacher_id`"
         }
 
         const validateFK = (validation) => validation.err && validation.message === testUtils.FK_CONSTRAINT

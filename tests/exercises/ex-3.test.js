@@ -60,21 +60,21 @@ describe("exercise3", () => {
             INSERT INTO symptoms VALUES(6, 1, 1, 0);
             INSERT INTO symptoms VALUES(7, 0, 1, 0);
 
-            INSERT INTO disease VALUES("cabagge disease", 0.2);
+            INSERT INTO disease VALUES("cabbage disease", 0.2);
             INSERT INTO disease VALUES("lettuce disease", 0.35);
 
-            INSERT INTO patient VALUES(null, 0, 1, 7, 'cabagge disease');
+            INSERT INTO patient VALUES(null, 0, 1, 7, 'cabbage disease');
             INSERT INTO patient VALUES(null, 1, 0, 3, null);
             INSERT INTO patient VALUES(null, 0, 0, 7, null);
             INSERT INTO patient VALUES(null, 2, 1, 0, null);
             INSERT INTO patient VALUES(null, 3, 1, 3, null);
-            INSERT INTO patient VALUES(null, 0, 1, 7, 'cabagge disease');
+            INSERT INTO patient VALUES(null, 0, 1, 7, 'cabbage disease');
             INSERT INTO patient VALUES(null, 2, 0, 0, null);
-            INSERT INTO patient VALUES(null, 1, 0, 4, 'cabagge disease');
+            INSERT INTO patient VALUES(null, 1, 0, 4, 'cabbage disease');
             INSERT INTO patient VALUES(null, 1, 1, 0, null);
             INSERT INTO patient VALUES(null, 1, 0, 3, null);
             INSERT INTO patient VALUES(null, 2, 0, 0, null);
-            INSERT INTO patient VALUES(null, 0, 1, 7, 'cabagge disease');
+            INSERT INTO patient VALUES(null, 0, 1, 7, 'cabbage disease');
             INSERT INTO patient VALUES(null, 0, 1, 0, 'lettuce disease');
             INSERT INTO patient VALUES(null, 0, 0, 7, null);
             INSERT INTO patient VALUES(null, 0, 1, 7, 'lettuce disease');`

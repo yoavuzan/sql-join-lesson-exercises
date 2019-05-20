@@ -64,6 +64,18 @@ describe('spotcheck2', () => {
         expect(result.cust_name, `Your results should contain a field called 'cust_name'. Did you use the alias correctly?`).toBeDefined()
         expect(result.comp_name, `Your results should contain a field called 'comp_name'. Did you use the alias correctly?`).toBeDefined()
 
+        result = await testUtils.getQueryResult(`EXPLAIN ${studentQuery}`)
+
+        const aliases = []
+
+        aliases.push(result.result[0].table)
+        aliases.push(result.result[1].table)
+        aliases.push(result.result[2].table)
+
+        expect(aliases.indexOf('tr'), 'Make sure you used the right aliases names, `tr`, `cu` and `co`').not.toBe(-1)
+        expect(aliases.indexOf('cu'), 'Make sure you used the right aliases names, `tr`, `cu` and `co`').not.toBe(-1)
+        expect(aliases.indexOf('co'), 'Make sure you used the right aliases names, `tr`, `cu` and `co`').not.toBe(-1)
+
         done()
     })
 })

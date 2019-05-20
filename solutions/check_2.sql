@@ -1,1 +1,0 @@
-USE sql_intro;

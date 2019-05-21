@@ -60,7 +60,7 @@ describe("exercise6", () => {
             INSERT INTO symptoms VALUES(6, 1, 1, 0);
             INSERT INTO symptoms VALUES(7, 0, 1, 0);
 
-            INSERT INTO disease VALUES(" disease", 0.2);
+            INSERT INTO disease VALUES("cabbage disease", 0.2);
             INSERT INTO disease VALUES("lettuce disease", 0.35);
 
             INSERT INTO patient VALUES(null, 0, 1, 7, 'cabbage disease');

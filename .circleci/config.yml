@@ -26,6 +26,12 @@ jobs:
           command: >
            curl -XPUT -d '{ "repoName": "'$CIRCLE_PROJECT_REPONAME'", "buildUrl":"'$CIRCLE_BUILD_URL'", "status": "RUNNING", "commitSha": "'$CIRCLE_SHA1'", "buildId": "'$CIRCLE_BUILD_NUM'", "testResults": "{}"}' 'https://hnvbmypjh9.execute-api.eu-central-1.amazonaws.com/prod/circleci-builds'
       - checkout
+      - attach_workspace:
+         at: ~/repo
+      - run:
+         name: Clone tests repo
+         command: git clone https://github.com/Elevationacademy/code-activity-checks.git --branch sql-join-lesson-exercises ~/repo/tests
+
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
